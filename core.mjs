@@ -66,18 +66,21 @@ const P = {
 
 // 网关没有公开模型清单时的兜底（来自 2026-10-26 真机 model-types 实测）。
 // rateMultiplier 是官方积分倍率，看板上会显示为「官方 ×0.06」。
+// 模型清单的兜底表（读不到上游时用）。`image` 是上游 model-types 接口的
+// supportImage，2026-10-27 实测抄录；`reasoning` 看 parameterDefinitions 里
+// 有没有 thinking/effort。
 export const FALLBACK_MODELS = [
-  { id: "auto", name: "Auto（智能路由）", rate: "" },
-  { id: "LongCat-2.0", name: "LongCat-2.0", rate: "0.00" },
-  { id: "glm-5.3-flashx", name: "GLM-5.3-FlashX", rate: "0.16" },
-  { id: "glm-5.3-flash", name: "GLM-5.3-Flash", rate: "0.06" },
-  { id: "glm-5.3", name: "GLM-5.3", rate: "0.59" },
-  { id: "deepseek-v4.1-flash", name: "DeepSeek-V4.1-Flash", rate: "0.06" },
-  { id: "deepseek-v4-pro", name: "DeepSeek-V4-Pro", rate: "0.48" },
-  { id: "MiniMax-M3.1-Flash", name: "MiniMax-M3.1-Flash", rate: "0.05" },
-  { id: "MiniMax-M3", name: "MiniMax-M3", rate: "0.22" },
-  { id: "kimi-k3.1-pro", name: "Kimi-K3.1-Pro", rate: "0.61" },
-  { id: "kimi-k3", name: "Kimi-K3", rate: "0.94" },
+  { id: "auto", name: "Auto（智能路由）", rate: "", image: false, reasoning: false },
+  { id: "LongCat-2.0", name: "LongCat-2.0", rate: "0.00", image: true, reasoning: true },
+  { id: "glm-5.3-flashx", name: "GLM-5.3-FlashX", rate: "0.16", image: true, reasoning: true },
+  { id: "glm-5.3-flash", name: "GLM-5.3-Flash", rate: "0.06", image: true, reasoning: true },
+  { id: "glm-5.3", name: "GLM-5.3", rate: "0.59", image: false, reasoning: true },
+  { id: "deepseek-v4.1-flash", name: "DeepSeek-V4.1-Flash", rate: "0.06", image: true, reasoning: true },
+  { id: "deepseek-v4-pro", name: "DeepSeek-V4-Pro", rate: "0.48", image: false, reasoning: true },
+  { id: "MiniMax-M3.1-Flash", name: "MiniMax-M3.1-Flash", rate: "0.05", image: false, reasoning: true },
+  { id: "MiniMax-M3", name: "MiniMax-M3", rate: "0.22", image: true, reasoning: true },
+  { id: "kimi-k3.1-pro", name: "Kimi-K3.1-Pro", rate: "0.61", image: true, reasoning: true },
+  { id: "kimi-k3", name: "Kimi-K3", rate: "0.94", image: true, reasoning: true },
 ]
 
 // ---- 桌面登录读取（只读） ----------------------------------------------------
