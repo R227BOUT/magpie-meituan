@@ -55,9 +55,17 @@ export const MeituanPlugin = async () => {
             name: m.name,
             limit: { context: 192_000, output: 128_000 },
             tool_call: true,
-            reasoning: false,
-            attachment: m.id !== "glm-5.3" && m.id !== "deepseek-v4-pro",
-            modalities: { input: ["text"], output: ["text"] },
+            reasoning: m.reasoning === true,
+            // 图片能力只认上游的 supportImage（FALLBACK_MODELS 里是实测抄录的
+            // image 字段）。别再按模型名写排除名单——那会把上游说能读图的
+            // 模型也关掉，也会把不能读图的打开。
+            // magpie 侧真正生效的是 modalities 里的 image；attachment 是
+            // OpenCode 2 已废弃的字段（只有 OpenCode 1.18 读它）。
+            attachment: m.image === true,
+            modalities: {
+              input: m.image === true ? ["text", "image"] : ["text"],
+              output: ["text"],
+            },
             ...(m.rate ? { remark: `官方 ×${m.rate}` } : {}),
           },
         ]),
