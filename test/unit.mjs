@@ -90,3 +90,31 @@ test("package.json 的 files 齐全（发布不缺文件）", async () => {
   }
   assert.ok(pkg.magpie?.maxConcurrency >= 1, "maxConcurrency 应声明")
 })
+
+// 2026-10-27：图片能力曾经用「模型名排除名单」硬写，结果和上游 supportImage
+// 对不上（MiniMax-M3 能读图被标成不能、MiniMax-M3.1-Flash 反过来），
+// 而且 attachment 与 modalities.input 自相矛盾（一个说能读图、一个说只文本）。
+test("图片能力来自上游 supportImage，且 attachment 与 modalities 一致", async () => {
+  const p = await index.MeituanPlugin()
+  const cfg = {}
+  await p.config(cfg)
+  const ms = cfg.provider.meituan.models
+
+  // 拿上游真实数据对照
+  const d = core.readDesktopLogin()
+  if (!d) return // 没登录态就跳过（不是失败）
+  const live = await core.listModels(d.token)
+  const byId = Object.fromEntries(live.map((x) => [x.id, x]))
+
+  for (const [id, v] of Object.entries(ms)) {
+    const src = byId[id]
+    if (!src) continue // auto 之类上游没有的
+    assert.equal(v.attachment, src.attachment === true, `${id} 的 attachment 要和上游 supportImage 一致`)
+    const hasImg = v.modalities.input.includes("image")
+    assert.equal(hasImg, v.attachment, `${id} 的 modalities.input 与 attachment 必须一致（不能一个说能读图一个说只文本）`)
+  }
+
+  // 至少有一个能读图、一个不能，说明不是一刀切
+  const vals = Object.values(ms).map((v) => v.attachment)
+  assert.ok(vals.includes(true) && vals.includes(false), "应当既有能读图的也有不能读图的模型")
+})
