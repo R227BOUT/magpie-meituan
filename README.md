@@ -1,4 +1,4 @@
-# magpie-plugin-meituan
+# magpie-meituan
 
 妙手（美团 CatPaw）作为 Magpie 的 provider 插件。把妙手的三段式对话（create → 落库轮询 → agent-stream → stream/connect SSE）桥接成 OpenAI 兼容的流式接口，带积分余额卡片，桌面登录态只读复用。
 
@@ -7,7 +7,7 @@
 ## 安装
 
 ```sh
-magpie plugin add github:R227BOUT/magpie-plugin-meituan
+magpie plugin add github:R227BOUT/magpie-meituan
 ```
 
 或者把仓库克隆到本地后 `magpie plugin add <本地目录>`。

@@ -1,5 +1,5 @@
 {
-  "name": "magpie-plugin-meituan",
+  "name": "magpie-meituan",
   "version": "0.1.0",
   "description": "Meituan CatPaw (妙手) as a Magpie provider: three-step agent chat bridged to OpenAI-compatible streaming, official credit balance card, personal points",
   "type": "module",
